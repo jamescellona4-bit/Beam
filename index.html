@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PIXEL MENU</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #7a0000, #120000 70%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+  overflow: hidden;
+  color: #ff4d4d;
+}
+
+/* CRT SCANLINES */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.04) 0px,
+    rgba(255,255,255,0.04) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+}
+
+/* GLITCH */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  25% { transform: translate(-2px,1px); }
+  50% { transform: translate(2px,-1px); }
+  75% { transform: translate(-1px,2px); }
+  100% { transform: translate(0); }
+}
+
+.container {
+  background: #120000;
+  border: 4px solid #ff2a2a;
+  padding: 30px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 0 25px red, inset 0 0 15px #7a0000;
+  animation: glitch 2.5s infinite;
+}
+
+h1 {
+  margin-bottom: 25px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px red;
+}
+
+.pixel-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  margin: 15px 0;
+  background: #2a0000;
+  border: 3px solid #ff2a2a;
+  color: #ffb3b3;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 0 12px red, inset 0 0 10px #7a0000;
+  transition: 0.15s;
+}
+
+.pixel-btn:hover {
+  background: #3b0000;
+  color: white;
+  transform: scale(1.04);
+  box-shadow: 0 0 30px red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>MAIN MENU</h1>
+
+  <div class="pixel-btn"
+       onclick="window.open('https://app.beamers.si/u/SPLUNK121122','_blank'); clickSound()"
+       onmouseenter="hoverSound()">
+    LINK GENERATOR
+  </div>
+</div>
+
+<script>
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function play(freq, duration) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = "square";
+  osc.frequency.value = freq;
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+}
+
+function hoverSound() { play(650, 0.05); }
+function clickSound() { play(180, 0.12); }
+</script>
+
+</body>
+</html>
